@@ -14,8 +14,8 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         // GET: Admin/News
         public ActionResult Index()
         {
-            var items = db.News.OrderByDescending(x => x.Id).ToList();
-            return View(items);
+            var items = db.News.OrderByDescending(x => x.Id);
+            return View(items.ToList());
         }
         public ActionResult Add()
         {
