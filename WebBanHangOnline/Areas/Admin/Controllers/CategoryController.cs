@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
@@ -37,11 +38,22 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             return View(model);
 
         }
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
             var item = db.Categories.Find(id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+            
             return View(item);
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Edit(Category model)
         {
             if (ModelState.IsValid)

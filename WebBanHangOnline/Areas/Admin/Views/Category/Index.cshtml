@@ -66,7 +66,7 @@
                                 <td>@item.Title</td>
                                 <td>@item.Position</td>
                                 <td>
-                                    <a href="/Admin/Category/Edit/@item.Id" class="btn btn-sm btn-primary">Sửa</a>
+                                    <a href="@Url.Action("Edit", new { id=item.Id })" class="btn btn-sm btn-primary">Edit</a>
                                     <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete">Xóa</a>
                                 </td>
                             </tr>
