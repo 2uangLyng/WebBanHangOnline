@@ -1,6 +1,6 @@
 ﻿@model WebBanHangOnline.Models.EF.ProductCategory
 @{
-    ViewBag.Title = "Thêm mới danh mục sản phẩm";
+    ViewBag.Title = "Cập nhật danh mục sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -18,7 +18,7 @@
             <a href="/admin/news" class="nav-link">danh mục sản phẩm</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Thêm mới</a>
+            <a href="#" class="nav-link">Cập nhật</a>
         </li>
     </ul>
 }
@@ -29,12 +29,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Thêm mới danh mục sản phẩm</h1>
+                <h1>Cập nhật danh mục sản phẩm</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">danh mục sản phẩm</a></li>
-                    <li class="breadcrumb-item active">Thêm mới</li>
+                    <li class="breadcrumb-item active">Cập nhật</li>
                 </ol>
             </div>
         </div>
@@ -47,25 +47,22 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Thông tin thêm mới Tin tức</h3>
+            <h3 class="card-title">Thông tin Cập nhật</h3>
         </div>
         <div class="card-body">
             <div class="bs-stepper-content">
-                @using (Html.BeginForm("Add", "ProductCategory", FormMethod.Post, new { }))
+                @using (Html.BeginForm("Edit", "ProductCategory", FormMethod.Post, new { }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
+                    @Html.HiddenFor(x=>x.Id)
+                    @Html.HiddenFor(x=>x.CreatedDate)
                     <!-- your steps content here -->
                 <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
                     <div class="form-group">
                         <label for="exampleInputEmail1">Tiêu đề</label>
                         @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tiêu đề" })
                         @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Alias</label>
-                        @Html.TextBoxFor(x => x.Alias, new { @class = "form-control", @placeholder = "Alias" })
-                        @Html.ValidationMessageFor(x => x.Alias, null, new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label for="exampleInputFile">Ảnh</label>
@@ -77,6 +74,11 @@
                                 <input type="button" value="Tải ảnh" onclick="BrowseServer('txtImage');" />
                             </div>
                         </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Alias</label>
+                        @Html.TextBoxFor(x => x.Alias, new { @class = "form-control", @placeholder = "Alias" })
+                        @Html.ValidationMessageFor(x => x.Alias, null, new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Seo title</label>

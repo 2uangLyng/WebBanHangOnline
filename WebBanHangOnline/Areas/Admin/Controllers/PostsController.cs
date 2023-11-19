@@ -8,6 +8,7 @@ using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin,Employee")]
     public class PostsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -21,22 +22,22 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Add(Posts model)
         {
             if (ModelState.IsValid)
             {
-                model.CreactedDate = DateTime.Now;
-                model.CategoryID = 3;
-                model.ModifiedrDate = DateTime.Now;
+                model.CreatedDate = DateTime.Now;
+                model.CategoryId = 3;
+                model.ModifiedDate = DateTime.Now;
                 model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
                 db.Posts.Add(model);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(model);
-
         }
 
         public ActionResult Edit(int id)
@@ -44,13 +45,14 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             var item = db.Posts.Find(id);
             return View(item);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(Posts model)
         {
             if (ModelState.IsValid)
             {
-                model.ModifiedrDate = DateTime.Now;
+                model.ModifiedDate = DateTime.Now;
                 model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
                 db.Posts.Attach(model);
                 db.Entry(model).State = System.Data.Entity.EntityState.Modified;
@@ -58,7 +60,6 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(model);
-
         }
 
         [HttpPost]
@@ -71,6 +72,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 db.SaveChanges();
                 return Json(new { success = true });
             }
+
             return Json(new { success = false });
         }
 
@@ -85,11 +87,12 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 db.SaveChanges();
                 return Json(new { success = true, isAcive = item.IsActive });
             }
+
             return Json(new { success = false });
         }
 
         [HttpPost]
-        public ActionResult DeletedAll(string ids)
+        public ActionResult DeleteAll(string ids)
         {
             if (!string.IsNullOrEmpty(ids))
             {
@@ -107,5 +110,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             }
             return Json(new { success = false });
         }
+
+
     }
 }

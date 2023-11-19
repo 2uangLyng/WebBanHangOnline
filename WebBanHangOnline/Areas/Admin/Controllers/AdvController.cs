@@ -8,17 +8,16 @@ using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
-    public class CategoryController : Controller
+    [Authorize(Roles = "Admin,Employee")]
+    public class AdvController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        // GET: Admin/Category
+        // GET: Admin/Posts
         public ActionResult Index()
         {
-            var items = db.Categories;
+            var items = db.Posts.ToList();
             return View(items);
         }
-
         public ActionResult Add()
         {
             return View();
@@ -26,14 +25,13 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(Category model)
+        public ActionResult Add(Adv model)
         {
             if (ModelState.IsValid)
             {
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
-                db.Categories.Add(model);
+                db.Advs.Add(model);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -42,28 +40,19 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
         public ActionResult Edit(int id)
         {
-            var item = db.Categories.Find(id);
+            var item = db.Advs.Find(id);
             return View(item);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Category model)
+        public ActionResult Edit(Adv model)
         {
             if (ModelState.IsValid)
             {
-                db.Categories.Attach(model);
                 model.ModifiedDate = DateTime.Now;
-                model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
-                db.Entry(model).Property(x => x.Title).IsModified = true;
-                db.Entry(model).Property(x => x.Description).IsModified = true;
-                db.Entry(model).Property(x => x.Link).IsModified = true;
-                db.Entry(model).Property(x => x.Alias).IsModified = true;
-                db.Entry(model).Property(x => x.SeoDescription).IsModified = true;
-                db.Entry(model).Property(x => x.SeoKeywords).IsModified = true;
-                db.Entry(model).Property(x => x.SeoTitle).IsModified = true;
-                db.Entry(model).Property(x => x.Position).IsModified = true;
-                db.Entry(model).Property(x => x.ModifiedDate).IsModified = true;
-                db.Entry(model).Property(x => x.Modifiedby).IsModified = true;
+                db.Advs.Attach(model);
+                db.Entry(model).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -73,15 +62,37 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            var item = db.Categories.Find(id);
+            var item = db.Advs.Find(id);
             if (item != null)
             {
-                //var DeleteItem = db.Categories.Attach(item);
-                db.Categories.Remove(item);
+                db.Advs.Remove(item);
                 db.SaveChanges();
+                return Json(new { success = true });
+            }
+
+            return Json(new { success = false });
+        }
+
+       
+        [HttpPost]
+        public ActionResult DeleteAll(string ids)
+        {
+            if (!string.IsNullOrEmpty(ids))
+            {
+                var items = ids.Split(',');
+                if (items != null && items.Any())
+                {
+                    foreach (var item in items)
+                    {
+                        var obj = db.Advs.Find(Convert.ToInt32(item));
+                        db.Advs.Remove(obj);
+                        db.SaveChanges();
+                    }
+                }
                 return Json(new { success = true });
             }
             return Json(new { success = false });
         }
+
     }
 }

@@ -1,5 +1,4 @@
-﻿
-@model WebBanHangOnline.Models.EF.Product
+﻿@model WebBanHangOnline.Models.EF.Product
 @{
     ViewBag.Title = "Cập nhật sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
@@ -58,8 +57,8 @@
                     {
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true)
-                        @Html.HiddenFor(x => x.Id)
-                        @Html.HiddenFor(x => x.CreatedDate)
+                        @Html.HiddenFor(x=>x.Id)
+                        @Html.HiddenFor(x=>x.CreatedDate)
                         <div class="card">
                             <div class="card-header p-2">
                                 <ul class="nav nav-pills">
@@ -173,7 +172,7 @@
                                         </div>
                                     </div>
                                     <!-- /.tab-pane -->
-
+                                 
 
                                     <div class="tab-pane" id="settings">
                                         <form class="form-horizontal">
@@ -249,8 +248,8 @@
                 extraAllowedContent: 'span',
             });
 
-
+       
         });
-
+     
     </script>
 }

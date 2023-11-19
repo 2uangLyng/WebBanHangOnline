@@ -4,22 +4,25 @@
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
+
 @section naviheader{
+    <!-- Left navbar links -->
     <ul class="navbar-nav">
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/Admin/Home" class="nav-link">Trang chủ</a>
+            <a href="/admin" class="nav-link">Trang chủ</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/Admin/posts" class="nav-link">Bài viết</a>
+            <a href="/admin/posts" class="nav-link"> Bài viết</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Cập nhật</a>
         </li>
     </ul>
 }
+
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
@@ -55,13 +58,13 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true)
                         @Html.HiddenFor(x => x.Id)
-                        @Html.HiddenFor(x => x.CategoryID)
-                        @Html.HiddenFor(x => x.CreactedDate)
+                        @Html.HiddenFor(x => x.CategoryId)
+                        @Html.HiddenFor(x => x.CreatedDate)
                         <!-- your steps content here -->
                         <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Tiêu đề</label>
-                                @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tên Tiêu đề" })
+                                @Html.TextBoxFor(x => x.Title, new { @class = "form-control", @placeholder = "Tiêu đề" })
                                 @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
                             </div>
                             <div class="form-group">
@@ -80,29 +83,29 @@
                                 @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputEmail1">Chi tiết</label>
-                                @Html.TextBoxFor(x => x.Detail, new { @class = "form-control", @id = "txtDetail" })
+                                <label for="exampleInputPassword1">Chi tiết</label>
+                                @Html.TextAreaFor(x => x.Detail, new { @class = "form-control", @id = "txtDetail" })
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Hiển thị</label>
                                 @Html.CheckBoxFor(x => x.IsActive)
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Seo Title</label>
+                                <label for="exampleInputPassword1">Seo title</label>
                                 @Html.TextAreaFor(x => x.SeoTitle, new { @class = "form-control" })
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Seo Description</label>
-                                @Html.TextAreaFor(x => x.SeoDiscription, new { @class = "form-control" })
+                                <label for="exampleInputPassword1">SeoDescription</label>
+                                @Html.TextAreaFor(x => x.SeoDescription, new { @class = "form-control" })
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">Seo Keywords</label>
+                                <label for="exampleInputPassword1">SeoKeywords</label>
                                 @Html.TextAreaFor(x => x.SeoKeywords, new { @class = "form-control" })
                             </div>
+
                             <div class="form-group">
                                 <button type="submit" class="btn btn-primary">Lưu</button>
-                                <a href="/Admin/posts" class="btn btn-danger">Quay lại</a>
-
+                                <a href="/admin/posts" class="btn btn-danger">Quay lại</a>
                             </div>
                         </div>
 
@@ -110,6 +113,7 @@
 
                 </div>
             }
+
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
@@ -122,7 +126,7 @@
 </section>
 <!-- /.content -->
 
-@section scripts{
+@section  scripts{
     <script>
         $(document).ready(function () {
             CKEDITOR.replace('txtDetail', {
@@ -137,5 +141,6 @@
             };
             finder.popup();
         }
+
     </script>
 }
