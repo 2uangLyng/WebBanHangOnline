@@ -1,6 +1,6 @@
-﻿@model WebBanHangOnline.Models.EF.News
+﻿@model WebBanHangOnline.Models.EF.ProductCategory
 @{
-    ViewBag.Title = "Thêm mới tin tức";
+    ViewBag.Title = "Thêm mới danh mục sản phẩm";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -13,7 +13,7 @@
             <a href="/Admin/Home" class="nav-link">Trang chủ</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="/Admin/News" class="nav-link">Tin tức</a>
+            <a href="/Admin/News" class="nav-link">danh mục sản phẩm</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
             <a href="#" class="nav-link">Thêm mới</a>
@@ -26,11 +26,11 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Thêm mới Tin tức</h1>
+                <h1>Thêm mới danh mục sản phẩm</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Danh mục</a></li>
+                    <li class="breadcrumb-item"><a href="#">danh mục sản phẩm</a></li>
                     <li class="breadcrumb-item active">Thêm mới</li>
                 </ol>
             </div>
@@ -48,7 +48,7 @@
         </div>
         <div class="card-body">
             <div class="bs-stepper-content">
-                @using (Html.BeginForm("Add", "News", FormMethod.Post, new { }))
+                @using (Html.BeginForm("Add", "ProductCategory", FormMethod.Post, new { }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
@@ -60,27 +60,9 @@
                         @Html.ValidationMessageFor(x => x.Title, null, new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputFile">Ảnh đại diện</label>
-                        <div class="input-group">
-                            <div class="custom-file">
-                                @Html.TextBoxFor(x => x.Image, new { @id = "txtImage", @class = "form-control" })
-                            </div>
-                            <div class="input-group-append">
-                                <input type="button" value="Tải ảnh" onclick="BrowseServer('txtImage');" />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Mô tả</label>
-                        @Html.TextAreaFor(x => x.Description, new { @class = "form-control" })
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Chi tiết</label>
-                        @Html.TextBoxFor(x => x.Detail, new { @class = "form-control", @id = "txtDetail" })
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Hiển thị</label>
-                        @Html.CheckBoxFor(x => x.IsActive, new {@checked= "@checked"})
+                        <label for="exampleInputEmail1">Alias</label>
+                        @Html.TextBoxFor(x => x.Alias, new { @class = "form-control", @placeholder = "Alias" })
+                        @Html.ValidationMessageFor(x => x.Alias, null, new { @class = "text-danger" })
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Seo Title</label>
@@ -133,3 +115,5 @@
         }
     </script>
 }
+
+

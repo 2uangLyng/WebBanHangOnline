@@ -1,6 +1,6 @@
 ﻿@model WebBanHangOnline.Models.EF.News
 @{
-    ViewBag.Title = "Thêm mới tin tức";
+    ViewBag.Title = "Cập nhật tin tức";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
@@ -16,7 +16,7 @@
             <a href="/Admin/News" class="nav-link">Tin tức</a>
         </li>
         <li class="nav-item d-none d-sm-inline-block">
-            <a href="#" class="nav-link">Thêm mới</a>
+            <a href="#" class="nav-link">Cập nhật</a>
         </li>
     </ul>
 }
@@ -30,8 +30,8 @@
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Danh mục</a></li>
-                    <li class="breadcrumb-item active">Thêm mới</li>
+                    <li class="breadcrumb-item"><a href="#">Tin tức</a></li>
+                    <li class="breadcrumb-item active">Cập nhật</li>
                 </ol>
             </div>
         </div>
@@ -44,14 +44,19 @@
     <!-- Default box -->
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Thông tin thêm mới Tin tức</h3>
+            <h3 class="card-title">Thông tin Cập nhật Tin tức</h3>
         </div>
         <div class="card-body">
+            @if (Model != null)
+            {
             <div class="bs-stepper-content">
-                @using (Html.BeginForm("Add", "News", FormMethod.Post, new { }))
+                @using (Html.BeginForm("Edit", "News", FormMethod.Post, new { }))
                 {
                     @Html.AntiForgeryToken()
                     @Html.ValidationSummary(true)
+                    @Html.HiddenFor(x => x.Id)
+                    @Html.HiddenFor(x => x.CategoryID)
+                    @Html.HiddenFor(x => x.CreactedDate)
                     <!-- your steps content here -->
                 <div id="logins-part" class="content active dstepper-block" role="tabpanel" aria-labelledby="logins-part-trigger">
                     <div class="form-group">
@@ -80,7 +85,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Hiển thị</label>
-                        @Html.CheckBoxFor(x => x.IsActive, new {@checked= "@checked"})
+                        @Html.CheckBoxFor(x => x.IsActive)
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Seo Title</label>
@@ -95,15 +100,16 @@
                         @Html.TextAreaFor(x => x.SeoKeywords, new { @class = "form-control" })
                     </div>
                     <div class="form-group">
-
                         <button type="submit" class="btn btn-primary">Lưu</button>
                         <a href="/Admin/News" class="btn btn-danger">Quay lại</a>
+
                     </div>
                 </div>
 
                 }
 
             </div>
+            }
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
