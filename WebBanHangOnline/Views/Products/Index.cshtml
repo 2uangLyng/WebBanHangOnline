@@ -12,8 +12,8 @@
 
             <div class="breadcrumbs d-flex flex-row align-items-center">
                 <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li class="active"><a href="index.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Men's</a></li>
+                    <li><a href="/">Trang chủ</a></li>
+                    <li class="active"><a href="/san-pham"><i class="fa fa-angle-right" aria-hidden="true"></i>Tất cả sản phẩm</a></li>
                 </ul>
             </div>
 
@@ -22,59 +22,62 @@
             <div class="sidebar">
                 <div class="sidebar_section">
                     <div class="sidebar_title">
-                        <h5>Product Category</h5>
+                        <h5>Danh mục</h5>
                     </div>
-                    @Html.Action("MenuLeft","Menu")
+                    @Html.Action("MenuLeft", "Menu")
                 </div>
 
                 <!-- Price Range Filtering -->
                 <div class="sidebar_section">
                     <div class="sidebar_title">
-                        <h5>Filter by Price</h5>
+                        <h5>Lọc theo giá</h5>
                     </div>
                     <p>
                         <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
                     </p>
                     <div id="slider-range"></div>
-                    <div class="filter_button"><span>filter</span></div>
+                    <div class="filter_button"><span>Lọc</span></div>
+
+                    <hr />
+                    @Html.Action("Refresh", "Home")
                 </div>
 
                 <!-- Sizes -->
                 @*<div class="sidebar_section">
-                    <div class="sidebar_title">
-                        <h5>Sizes</h5>
-                    </div>
-                    <ul class="checkboxes">
-                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>S</span></li>
-                        <li class="active"><i class="fa fa-square" aria-hidden="true"></i><span>M</span></li>
-                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>L</span></li>
-                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>XL</span></li>
-                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>XXL</span></li>
-                    </ul>
-                </div>*@
+                        <div class="sidebar_title">
+                            <h5>Sizes</h5>
+                        </div>
+                        <ul class="checkboxes">
+                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>S</span></li>
+                            <li class="active"><i class="fa fa-square" aria-hidden="true"></i><span>M</span></li>
+                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>L</span></li>
+                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>XL</span></li>
+                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>XXL</span></li>
+                        </ul>
+                    </div>*@
 
                 <!-- Color -->
                 @*<div class="sidebar_section">
-                    <div class="sidebar_title">
-                        <h5>Color</h5>
-                    </div>
-                    <ul class="checkboxes">
-                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Black</span></li>
-                        <li class="active"><i class="fa fa-square" aria-hidden="true"></i><span>Pink</span></li>
-                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>White</span></li>
-                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Blue</span></li>
-                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Orange</span></li>
-                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>White</span></li>
-                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Blue</span></li>
-                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Orange</span></li>
-                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>White</span></li>
-                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Blue</span></li>
-                        <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Orange</span></li>
-                    </ul>
-                    <div class="show_more">
-                        <span><span>+</span>Show More</span>
-                    </div>
-                </div>*@
+                        <div class="sidebar_title">
+                            <h5>Color</h5>
+                        </div>
+                        <ul class="checkboxes">
+                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Black</span></li>
+                            <li class="active"><i class="fa fa-square" aria-hidden="true"></i><span>Pink</span></li>
+                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>White</span></li>
+                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Blue</span></li>
+                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Orange</span></li>
+                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>White</span></li>
+                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Blue</span></li>
+                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Orange</span></li>
+                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>White</span></li>
+                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Blue</span></li>
+                            <li><i class="fa fa-square-o" aria-hidden="true"></i><span>Orange</span></li>
+                        </ul>
+                        <div class="show_more">
+                            <span><span>+</span>Show More</span>
+                        </div>
+                    </div>*@
 
             </div>
 
@@ -145,32 +148,38 @@
                                         <div class="product-item @item.ProductCategory.Alias">
                                             <div class="product discount product_filter">
                                                 <div class="product_image">
-                                                    <img src="@strImge" alt="@item.Title">
+                                                    <a href="/chi-tiet/@item.Alias-p@(item.Id)"><img src="@strImge" alt="@item.Title"></a>
                                                 </div>
                                                 <div class="favorite favorite_left"></div>
-                                                @if (item.PriceSale > 0)
+                                                @if (item.IsSale == true)
                                                 {
-                                                    <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>sale</span></div>
+                                                    <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>Sale</span></div>
                                                 }
-                                                @* <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>-$20</span></div>*@
-                                            <div class="product_info">
-                                                <h6 class="product_name"><a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a></h6>
-                                                @if (item.PriceSale > 0)
+                                                @if (item.IsHot == true)
                                                 {
-                                                    <div class="product_price">@WebBanHangOnline.Common.Common.FormatNumber(item.PriceSale, 0)<span>@WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0)</span></div>
-
+                                                    <div class="product_bubble product_bubble_right product_bubble_red d-flex flex-column align-items-center"><span>Hot</span></div>
                                                 }
-                                                else
-                                                {
-                                                    <div class="product_price">@WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0)</div>
-                                                }
-                                            </div>
+                                     
+                                                <div class="product_info">
+                                                    <h6 class="product_name"><a href="/chi-tiet/@item.Alias-p@(item.Id)">@item.Title</a></h6>
+                                                    @if (item.IsSale == true)
+                                                    {
+                                                        <div class="product_price">@WebBanHangOnline.Common.Common.FormatNumber(item.PriceSale, 0)<span>@WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0)</span></div>
+                                                        <div style="display:none;" class="in_product_price"> @item.PriceSale</div>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="product_price">@WebBanHangOnline.Common.Common.FormatNumber(item.Price, 0)</div>
+                                                        <div style="display:none;" class="in_product_price"> @item.Price</div>
+                                                    }
+                                                </div>
                                             </div>
                                             <div class="red_button add_to_cart_button"><a href="#" class="btnAddToCart" data-id="@item.Id">add to cart</a></div>
                                         </div>
                                     }
                                 }
-        
+
+
                             </div>
 
                             <!-- Product Sorting -->
@@ -189,20 +198,22 @@
                                         </ul>
                                     </li>
                                 </ul>
-                                @*<span class="showing_results">Showing 1–3 of 12 results</span>
-                                <div class="pages d-flex flex-row align-items-center">
-                                    <div class="page_current">
-                                        <span>1</span>
-                                        <ul class="page_selection">
-                                            <li><a href="#">1</a></li>
-                                            <li><a href="#">2</a></li>
-                                            <li><a href="#">3</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="page_total"><span>of</span> 3</div>
-                                    <div id="next_page_1" class="page_next"><a href="#"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></div>
-                                </div>*@
+                                @*<span class="showing_results">Showing 1–3 of 12 results</span>*@
+                                @*<div class="pages d-flex flex-row align-items-center">
+                                        <div class="page_current">
+                                            <span>1</span>
+                                            <ul class="page_selection">
+                                                <li><a href="#">1</a></li>
+                                                <li><a href="#">2</a></li>
+                                                <li><a href="#">3</a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="page_total"><span>of</span> 3</div>
+                                        <div id="next_page_1" class="page_next"><a href="#"><i class="fa fa-long-arrow-right" aria-hidden="true"></i></a></div>
+                                    </div>*@
+
                             </div>
+
                         </div>
                     </div>
                 </div>
@@ -210,6 +221,7 @@
         </div>
     </div>
 </div>
+
 @section scripts{
     <script src="~/Content/assets/js/categories_custom.js"></script>
 }

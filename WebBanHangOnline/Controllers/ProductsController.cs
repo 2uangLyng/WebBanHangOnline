@@ -11,16 +11,14 @@ namespace WebBanHangOnline.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         // GET: Products
-        public ActionResult Index(int? id)
+        public ActionResult Index()
         {
             var items = db.Products.ToList();
-            if (id != null)
-            {
-                items = items.Where(x => x.ProductCategoryId == id).ToList();
-            }           
+            
             return View(items);
         }
-        public ActionResult Detail(string alias, int id)
+
+        public ActionResult Detail(string alias,int id)
         {
             var item = db.Products.Find(id);
             if (item != null)
@@ -30,10 +28,10 @@ namespace WebBanHangOnline.Controllers
                 db.Entry(item).Property(x => x.ViewCount).IsModified = true;
                 db.SaveChanges();
             }
-
+            
             return View(item);
         }
-        public ActionResult ProductCategory(string alias, int id)
+        public ActionResult ProductCategory(string alias,int id)
         {
             var items = db.Products.ToList();
             if (id > 0)

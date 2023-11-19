@@ -1,4 +1,4 @@
-/* JS Document */
+﻿/* JS Document */
 
 /******************************
 
@@ -323,7 +323,7 @@ jQuery(document).ready(function($)
 	            	price: function(itemElement)
 	            	{
 						var priceEle = $(itemElement).find('.in_product_price').text();
-	            		return parseFloat(priceEle);
+						return parseFloat(priceEle);
 	            	},
 	            	name: '.product_name'
 	            },
@@ -365,9 +365,9 @@ jQuery(document).ready(function($)
 		            filter: function()
 		            {
 		            	var priceRange = $('#amount').val();
-			        	var priceMin = parseFloat(priceRange.split('-')[0].replace('VND', ''));
-			        	var priceMax = parseFloat(priceRange.split('-')[1].replace('VND', ''));
-						var itemPrice = $(this).find('.in_product_price').clone().children().remove().end().text().replace( '$', '' );
+			        	var priceMin = parseFloat(priceRange.split('-')[0].replace('đ', ''));
+			        	var priceMax = parseFloat(priceRange.split('-')[1].replace('đ', ''));
+						var itemPrice = $(this).find('.in_product_price').clone().children().remove().end().text();
 
 			        	return (itemPrice > priceMin) && (itemPrice < priceMax);
 		            },
@@ -397,13 +397,13 @@ jQuery(document).ready(function($)
 			values: [ 0, 500000 ],
 			slide: function( event, ui )
 			{
-				$("#amount").val(ui.values[0] + "VND" + ui.values[1] + " - VND" );
+				$("#amount").val("đ" + ui.values[0] + " - đ" + ui.values[1]);
 				$('#FromAmount').val(ui.values[0]);
-				$('#FromAmount').val(ui.values[1]);
+				$('#ToAmount').val(ui.values[1]);
 			}
 		});
 			
-		$("#amount").val($("#slider-range").slider("values", 0) + "VND" + $("#slider-range").slider("values", 1) +  " - VND");
+		$( "#amount" ).val( "đ" + $( "#slider-range" ).slider( "values", 0 ) + " - đ" + $( "#slider-range" ).slider( "values", 1 ) );
     }
 
     /* 
