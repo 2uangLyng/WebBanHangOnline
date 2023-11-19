@@ -9,6 +9,7 @@ using WebBanHangOnline.Models.EF;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin,Employee")]
     public class NewsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
@@ -16,41 +17,42 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         public ActionResult Index(string Searchtext, int? page)
         {
             var pageSize = 10;
-            if(page == null)
+            if (page == null)
             {
                 page = 1;
             }
             IEnumerable<News> items = db.News.OrderByDescending(x => x.Id);
-            if(!string.IsNullOrEmpty(Searchtext))
+            if (!string.IsNullOrEmpty(Searchtext))
             {
-                items = items.Where(x => x.Alias.Contains(Searchtext) || x.Title.Contains(Searchtext));
+                items= items.Where(x=>x.Alias.Contains(Searchtext) || x.Title.Contains(Searchtext));
             }
             var pageIndex = page.HasValue ? Convert.ToInt32(page) : 1;
-            items = items.ToPagedList(pageIndex,pageSize);
+             items = items.ToPagedList(pageIndex, pageSize);
             ViewBag.PageSize = pageSize;
             ViewBag.Page = page;
             return View(items);
         }
+
         public ActionResult Add()
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Add(News model)
         {
             if (ModelState.IsValid)
             {
-                model.CreactedDate = DateTime.Now;
-                model.CategoryID = 3;
-                model.ModifiedrDate = DateTime.Now;
+                model.CreatedDate = DateTime.Now;
+                model.CategoryId = 2;
+                model.ModifiedDate = DateTime.Now;
                 model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
                 db.News.Add(model);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(model);
-
         }
 
         public ActionResult Edit(int id)
@@ -58,13 +60,14 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             var item = db.News.Find(id);
             return View(item);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(News model)
         {
             if (ModelState.IsValid)
             {
-                model.ModifiedrDate = DateTime.Now;
+                model.ModifiedDate = DateTime.Now;
                 model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
                 db.News.Attach(model);
                 db.Entry(model).State = System.Data.Entity.EntityState.Modified;
@@ -72,19 +75,19 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
             return View(model);
-
         }
 
         [HttpPost]
         public ActionResult Delete(int id)
         {
             var item = db.News.Find(id);
-            if(item != null)
+            if (item != null)
             {
                 db.News.Remove(item);
                 db.SaveChanges();
                 return Json(new { success = true });
             }
+
             return Json(new { success = false });
         }
 
@@ -99,18 +102,19 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 db.SaveChanges();
                 return Json(new { success = true, isAcive = item.IsActive });
             }
+
             return Json(new { success = false });
         }
 
         [HttpPost]
-        public ActionResult DeletedAll(string ids)
+        public ActionResult DeleteAll(string ids)
         {
-            if(!string.IsNullOrEmpty(ids))
+            if (!string.IsNullOrEmpty(ids))
             {
                 var items = ids.Split(',');
-                if(items!=null && items.Any())
+                if (items != null && items.Any())
                 {
-                    foreach(var item in items)
+                    foreach (var item in items)
                     {
                         var obj = db.News.Find(Convert.ToInt32(item));
                         db.News.Remove(obj);
@@ -121,5 +125,6 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             }
             return Json(new { success = false });
         }
+
     }
 }

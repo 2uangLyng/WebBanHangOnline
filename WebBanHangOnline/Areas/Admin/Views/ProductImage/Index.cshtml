@@ -1,5 +1,4 @@
-﻿
-@model IEnumerable<WebBanHangOnline.Models.EF.ProductImage>
+﻿@model IEnumerable<WebBanHangOnline.Models.EF.ProductImage>
 @{
     ViewBag.Title = "Ảnh sản phảm";
     Layout = "~/Areas/Admin/Views/Shared/_LayoutEmpty.cshtml";
@@ -7,19 +6,17 @@
 
 }
 <style>
-    .glImage {
-        list-style: none;
-        margin: 0;
-        padding: 0;
-        display: flex;
+    .glImage{
+        list-style:none;
+        margin:0;
+        padding:0;
+        display:flex;
     }
-
-        .glImage li {
-            /*flex-direction:*/
-            display: inline-block;
-            position: relative;
-        }
-
+    .glImage li{
+       /*flex-direction:*/
+       display:inline-block;
+       position:relative;
+    }
     .box-btn {
         position: absolute;
         bottom: 0;
@@ -40,8 +37,8 @@
                 <button type="button" class="btn btn-danger" title="Collapse">
                     Xóa hết
                 </button>
-
-                <input type="button" value="Tải ảnh" class="btn btn-success" onclick="BrowseServer('txtImage');" />
+           
+                <input type="button" value="Tải ảnh"  class="btn btn-success" onclick="BrowseServer('txtImage');" />
             </div>
         </div>
         <div class="card-body">
@@ -51,7 +48,7 @@
                     foreach (var item in Model)
                     {
                         <li id="trow_@item.Id">
-                            <img src="@item.Image" width="200" />
+                            <img src="@item.Image" width="200"/>
                             <div class="box-btn">
                                 <a href="#" data-id="@item.Id" class="btn btn-sm btn-danger btnDelete"><i class="fa fa-trash"></i></a>
                                 @if (item.IsDefault)
@@ -70,7 +67,7 @@
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
-
+           
         </div>
         <!-- /.card-footer-->
     </div>
