@@ -45,12 +45,12 @@ namespace WebBanHangOnline.Models.EF
         public bool IsFeature { get; set; }
         public bool IsHot { get; set; }
         public bool IsActive { get; set; }
-        public int ProductCategoryID { get; set; }
+        public int ProductCategoryId { get; set; }
 
         [StringLength(250)]
         public string SeoTitle { get; set; }
         [StringLength(500)]
-        public string SeoDiscription { get; set; }
+        public string SeoDescription { get; set; }
         [StringLength(250)]
         public string SeoKeywords { get; set; }
 

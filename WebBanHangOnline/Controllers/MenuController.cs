@@ -18,7 +18,7 @@ namespace WebBanHangOnline.Controllers
 
         public ActionResult MenuTop()
         {
-            var items = db.Categories.OrderBy(x => x.Position).ToList();
+            var items = db.Categories.OrderBy(x=>x.Position).ToList();
             return PartialView("_MenuTop", items);
         }
 
@@ -26,11 +26,6 @@ namespace WebBanHangOnline.Controllers
         {
             var items = db.ProductCategories.ToList();
             return PartialView("_MenuProductCategory", items);
-        }
-        public ActionResult MenuLeft()
-        {
-            var items = db.ProductCategories.ToList();
-            return PartialView("_MenuLeft", items);
         }
         public ActionResult MenuLeft(int? id)
         {
