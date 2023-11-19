@@ -1,0 +1,81 @@
+﻿@model IEnumerable<WebBanHangOnline.Models.ShoppingCartItem>
+    @using WebBanHangOnline.Common
+@{
+    ViewBag.Title = "Giỏ hàng";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_styles.css">
+<link rel="stylesheet" type="text/css" href="~/Content/assets/styles/categories_responsive.css">
+<div class="container product_section_container">
+    <div class="row">
+        <div class="col product_section clearfix">
+
+            <!-- Breadcrumbs -->
+
+            <div class="breadcrumbs d-flex flex-row align-items-center">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li class="active"><a href="index.html"><i class="fa fa-angle-right" aria-hidden="true"></i>Giỏ hàng</a></li>
+                </ul>
+            </div>
+
+            <!-- Sidebar -->
+
+            
+
+            <!-- Main Content -->
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table">
+                        <tr class="text-center">
+                            <th>STT</th>
+                            <th>Ảnh sản phẩm</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Danh mục</th>
+                            <th>Giá</th>
+                            <th>Số lượng</th>
+                            <th>Thành tiền</th>
+                            <th></th>
+                        </tr>
+                        @if (Model != null && Model.Any())
+                        {
+                            var i = 0;
+                            var tongtien = decimal.Zero;
+                            foreach (var item in Model)
+                            {
+                                tongtien += item.TotalPrice;
+                    <tr class="text-center" id="trow_@item.ProductId">
+                        <td>@(i+1)</td>
+                        <td><img src="@item.ProductImg" width="60" /></td>
+                        <td><a href="/chi-tiet/@item.Alias-p@(item.ProductId)">@item.ProductName</a></td>
+                        <td>@item.CategoryName</td>
+                        <td>@Common.FormatNumber(item.Price, 0)</td>
+                        <td>@item.Quantity</td>
+                        <th>@Common.FormatNumber(item.TotalPrice, 0)/td>
+                        <td><a href="#" data-id="@item.ProductId" class="btn btn-sm btn-danger btnDelete">Xóa</a></td>
+                    </tr>
+                                i++;
+                            }
+                    <tr>
+                        <th colspan="6" class="text-right">Tổng: </th>
+                        <th>@Common.FormatNumber(tongtien, 0)</th>
+                        <td></td>
+                    </tr>
+            }
+            else
+            {
+                <tr>
+                    <th colspan="7">Không có sản phẩm trong giỏ hàng!!!</th>
+                </tr>
+            }
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section scripts{
+    <script src="~/Content/assets/js/categories_custom.js"></script>
+}
