@@ -6,12 +6,18 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
+using WebBanHangOnline.Services;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
     public class StatisticalController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db;
+
+        public StatisticalController()
+        {
+            db = DbContextSingleton.Instance.GetDbContext();
+        }
         // GET: Admin/Statistical
         public ActionResult Index()
         {

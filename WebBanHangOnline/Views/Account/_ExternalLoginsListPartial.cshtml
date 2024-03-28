@@ -7,14 +7,11 @@
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
     if (loginProviders.Count() == 0) {
         <div>
-            <p>
-                There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support logging in via external services.
-            </p>
+            <button type="button" class="btn btn-primary" id="tbnGoogle" value="Google"></button>
         </div>
     }
     else {
-        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl })) {
+        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = "https://localhost:44375/signin-google" })) {
             @Html.AntiForgeryToken()
             <div id="socialLoginList">
                 <p>

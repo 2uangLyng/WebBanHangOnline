@@ -7,13 +7,18 @@ using System.Web.Mvc;
 using WebBanHangOnline.Models;
 using WebBanHangOnline.Models.EF;
 using WebBanHangOnline.Models.Payments;
+using WebBanHangOnline.Services;
 
 namespace WebBanHangOnline.Controllers
 {
     public class ShoppingCartController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-        // GET: ShoppingCart
+        private ApplicationDbContext dbContext;
+
+        public ShoppingCartController()
+        {
+            dbContext = DbContextSingleton.Instance.GetDbContext();
+        }        // GET: ShoppingCart
         public ActionResult Index()
         {
 
@@ -54,13 +59,13 @@ namespace WebBanHangOnline.Controllers
                 {
                     if (vnp_ResponseCode == "00" && vnp_TransactionStatus == "00")
                     {
-                        var itemOrder = db.Orders.FirstOrDefault(x=>x.Code== orderCode);
+                        var itemOrder = dbContext.Orders.FirstOrDefault(x => x.Code == orderCode);
                         if (itemOrder != null)
                         {
                             itemOrder.Status = 2;//đã thanh toán
-                            db.Orders.Attach(itemOrder);
-                            db.Entry(itemOrder).State = System.Data.Entity.EntityState.Modified;
-                            db.SaveChanges();
+                            dbContext.Orders.Attach(itemOrder);
+                            dbContext.Entry(itemOrder).State = System.Data.Entity.EntityState.Modified;
+                            dbContext.SaveChanges();
                         }
                         //Thanh toan thanh cong
                         ViewBag.InnerText = "Giao dịch được thực hiện thành công. Cảm ơn quý khách đã sử dụng dịch vụ";
@@ -161,8 +166,8 @@ namespace WebBanHangOnline.Controllers
                     Random rd = new Random();
                     order.Code = "DH" + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9) + rd.Next(0, 9);
                     //order.E = req.CustomerName;
-                    db.Orders.Add(order);
-                    db.SaveChanges();
+                    dbContext.Orders.Add(order);
+                    dbContext.SaveChanges();
                     //send mail cho khachs hang
                     var strSanPham = "";
                     var thanhtien = decimal.Zero;
@@ -199,7 +204,8 @@ namespace WebBanHangOnline.Controllers
                     contentAdmin = contentAdmin.Replace("{{DiaChiNhanHang}}", order.Address);
                     contentAdmin = contentAdmin.Replace("{{ThanhTien}}", WebBanHangOnline.Common.Common.FormatNumber(thanhtien, 0));
                     contentAdmin = contentAdmin.Replace("{{TongTien}}", WebBanHangOnline.Common.Common.FormatNumber(TongTien, 0));
-                    WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Đơn hàng mới #" + order.Code, contentAdmin.ToString(), ConfigurationManager.AppSettings["EmailAdmin"]);
+                    WebBanHangOnline.Common.Common.SendMail("ShopOnline", "Đơn hàng mới #" + order.Code, contentAdmin.ToString(), 
+                        ConfigurationManager.AppSettings["EmailAdmin"]);
                     cart.ClearCart();
                     code = new { Success = true, Code = req.TypePayment, Url = "" };
                     //var url = "";
@@ -303,7 +309,7 @@ namespace WebBanHangOnline.Controllers
         public string UrlPayment(int TypePaymentVN, string orderCode)
         {
             var urlPayment = "";
-            var order = db.Orders.FirstOrDefault(x => x.Code == orderCode);
+            var order = dbContext.Orders.FirstOrDefault(x => x.Code == orderCode);
             //Get Config Info
             string vnp_Returnurl = ConfigurationManager.AppSettings["vnp_Returnurl"]; //URL nhan ket qua tra ve 
             string vnp_Url = ConfigurationManager.AppSettings["vnp_Url"]; //URL thanh toan cua VNPAY 

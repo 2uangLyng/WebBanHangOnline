@@ -6,13 +6,20 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
+using WebBanHangOnline.Services;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class RoleController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db;
+
+        public RoleController()
+        {
+            db = DbContextSingleton.Instance.GetDbContext();
+        }
+        
         // GET: Admin/Role
         public ActionResult Index()
         {

@@ -5,18 +5,27 @@ using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
 using WebBanHangOnline.Models.EF;
+using WebBanHangOnline.Services;
 
 namespace WebBanHangOnline.Controllers
 {
     public class HomeController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext dbContext;
+
+        public HomeController()
+        {
+            dbContext = DbContextSingleton.Instance.GetDbContext();
+        }
+
         public ActionResult Index()
         {
-         
-            //WebBanHangOnline.Common.Common.SendMail("ABC", "AAAA", "AAAA", "ngohoang29@gmail.com");
-            return View();
+            // Sử dụng đối tượng dbContext ở đây
+            var products = dbContext.Products.ToList();
+
+            return View(products);
         }
+       
 
         public ActionResult Partial_Subcrice()
         {
@@ -27,8 +36,8 @@ namespace WebBanHangOnline.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Subscribes.Add(new Subscribe { Email = req.Email, CreatedDate = DateTime.Now });
-                db.SaveChanges();
+                dbContext.Subscribes.Add(new Subscribe { Email = req.Email, CreatedDate = DateTime.Now });
+                dbContext.SaveChanges();
                 return Json(new {Success=true });
             }
             return View("Partial_Subcrice", req);
