@@ -3,11 +3,13 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
+using WebBanHangOnline.Services;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
@@ -16,11 +18,12 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext dbContext;
+
         public AccountController()
         {
+            dbContext = DbContextSingleton.Instance.GetDbContext();
         }
-
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
@@ -54,7 +57,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         // GET: Admin/Account
         public ActionResult Index()
         {
-            var ítems = db.Users.ToList();
+            var ítems = dbContext.Users.ToList();
             return View(ítems);
         }
         //
@@ -110,7 +113,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         [AllowAnonymous]
         public ActionResult Create()
         {
-            ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name");
+            ViewBag.Role = new SelectList(dbContext.Roles.ToList(), "Name", "Name");
             return View();
         }
 
@@ -146,7 +149,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 }
                 AddErrors(result);
             }
-            ViewBag.Role = new SelectList(db.Roles.ToList(), "Name", "Name");
+            ViewBag.Role = new SelectList(dbContext.Roles.ToList(), "Name", "Name");
             // If we got this far, something failed, redisplay form
             return View(model);
         }
@@ -178,14 +181,16 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            var item = db.Users.Find(id);
+            var item = dbContext.Users.Find(id);
             if (item != null)
             {
-                db.Users.Remove(item);
-                db.SaveChanges();
+                dbContext.Users.Remove(item);
+                dbContext.SaveChanges();
                 return Json(new { success = true });
             }
             return Json(new { success = false });
         }
+
+
     }
 }

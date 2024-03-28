@@ -8,6 +8,7 @@ using PagedList;
 using System.Globalization;
 using System.Data.Entity;
 using WebBanHangOnline.Models.ViewModels;
+using WebBanHangOnline.Services;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
@@ -15,7 +16,12 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
     public class OrderController : Controller
     {
 
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db;
+
+        public OrderController()
+        {
+            db = DbContextSingleton.Instance.GetDbContext();
+        }       
         // GET: Admin/Order
         public ActionResult Index(int? page)
         {

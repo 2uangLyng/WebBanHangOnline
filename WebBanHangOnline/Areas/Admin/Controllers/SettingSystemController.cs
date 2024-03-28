@@ -5,12 +5,18 @@ using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
 using WebBanHangOnline.Models.EF;
+using WebBanHangOnline.Services;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
     public class SettingSystemController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db;
+
+        public SettingSystemController()
+        {
+            db = DbContextSingleton.Instance.GetDbContext();
+        }
         // GET: Admin/SettingSystem
         public ActionResult Index()
         {

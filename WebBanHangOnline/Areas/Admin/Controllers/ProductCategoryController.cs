@@ -5,12 +5,18 @@ using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
 using WebBanHangOnline.Models.EF;
+using WebBanHangOnline.Services;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
     public class ProductCategoryController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db;
+
+        public ProductCategoryController()
+        {
+            db = DbContextSingleton.Instance.GetDbContext();
+        }
         // GET: Admin/ProductCategory
         public ActionResult Index()
         {

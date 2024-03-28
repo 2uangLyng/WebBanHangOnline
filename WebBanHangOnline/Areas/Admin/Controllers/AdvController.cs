@@ -5,17 +5,23 @@ using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
 using WebBanHangOnline.Models.EF;
+using WebBanHangOnline.Services;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Admin,Employee")]
     public class AdvController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext dbContext;
+
+        public AdvController()
+        {
+            dbContext = DbContextSingleton.Instance.GetDbContext();
+        }
         // GET: Admin/Posts
         public ActionResult Index()
         {
-            var items = db.Posts.ToList();
+            var items = dbContext.Posts.ToList();
             return View(items);
         }
         public ActionResult Add()
@@ -31,8 +37,8 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             {
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
-                db.Advs.Add(model);
-                db.SaveChanges();
+                dbContext.Advs.Add(model);
+                dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -40,7 +46,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
         public ActionResult Edit(int id)
         {
-            var item = db.Advs.Find(id);
+            var item = dbContext.Advs.Find(id);
             return View(item);
         }
 
@@ -51,9 +57,9 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 model.ModifiedDate = DateTime.Now;
-                db.Advs.Attach(model);
-                db.Entry(model).State = System.Data.Entity.EntityState.Modified;
-                db.SaveChanges();
+                dbContext.Advs.Attach(model);
+                dbContext.Entry(model).State = System.Data.Entity.EntityState.Modified;
+                dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -62,11 +68,11 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            var item = db.Advs.Find(id);
+            var item = dbContext.Advs.Find(id);
             if (item != null)
             {
-                db.Advs.Remove(item);
-                db.SaveChanges();
+                dbContext.Advs.Remove(item);
+                dbContext.SaveChanges();
                 return Json(new { success = true });
             }
 
@@ -84,9 +90,9 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 {
                     foreach (var item in items)
                     {
-                        var obj = db.Advs.Find(Convert.ToInt32(item));
-                        db.Advs.Remove(obj);
-                        db.SaveChanges();
+                        var obj = dbContext.Advs.Find(Convert.ToInt32(item));
+                        dbContext.Advs.Remove(obj);
+                        dbContext.SaveChanges();
                     }
                 }
                 return Json(new { success = true });

@@ -6,13 +6,19 @@ using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
 using WebBanHangOnline.Models.EF;
+using WebBanHangOnline.Services;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Admin,Employee")]
     public class NewsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db;
+
+        public NewsController()
+        {
+            db = DbContextSingleton.Instance.GetDbContext();
+        }       
         // GET: Admin/News
         public ActionResult Index(string Searchtext, int? page)
         {

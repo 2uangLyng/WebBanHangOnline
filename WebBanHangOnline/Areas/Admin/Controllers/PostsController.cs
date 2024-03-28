@@ -5,13 +5,19 @@ using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
 using WebBanHangOnline.Models.EF;
+using WebBanHangOnline.Services;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Admin,Employee")]
     public class PostsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db;
+
+        public PostsController()
+        {
+            db = DbContextSingleton.Instance.GetDbContext();
+        }
         // GET: Admin/Posts
         public ActionResult Index()
         {

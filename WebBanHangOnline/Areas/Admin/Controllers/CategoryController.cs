@@ -5,17 +5,23 @@ using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
 using WebBanHangOnline.Models.EF;
+using WebBanHangOnline.Services;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext dbContext;
+
+        public CategoryController()
+        {
+            dbContext = DbContextSingleton.Instance.GetDbContext();
+        }
         // GET: Admin/Category
         public ActionResult Index()
         {
-            var items = db.Categories;
+            var items = dbContext.Categories;
             return View(items);
         }
 
@@ -33,8 +39,8 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
                 model.CreatedDate = DateTime.Now;
                 model.ModifiedDate = DateTime.Now;
                 model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
-                db.Categories.Add(model);
-                db.SaveChanges();
+                dbContext.Categories.Add(model);
+                dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -42,7 +48,7 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
 
         public ActionResult Edit(int id)
         {
-            var item = db.Categories.Find(id);
+            var item = dbContext.Categories.Find(id);
             return View(item);
         }
         [HttpPost]
@@ -51,20 +57,20 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Categories.Attach(model);
+                dbContext.Categories.Attach(model);
                 model.ModifiedDate = DateTime.Now;
                 model.Alias = WebBanHangOnline.Models.Common.Filter.FilterChar(model.Title);
-                db.Entry(model).Property(x => x.Title).IsModified = true;
-                db.Entry(model).Property(x => x.Description).IsModified = true;
-                db.Entry(model).Property(x => x.Link).IsModified = true;
-                db.Entry(model).Property(x => x.Alias).IsModified = true;
-                db.Entry(model).Property(x => x.SeoDescription).IsModified = true;
-                db.Entry(model).Property(x => x.SeoKeywords).IsModified = true;
-                db.Entry(model).Property(x => x.SeoTitle).IsModified = true;
-                db.Entry(model).Property(x => x.Position).IsModified = true;
-                db.Entry(model).Property(x => x.ModifiedDate).IsModified = true;
-                db.Entry(model).Property(x => x.Modifiedby).IsModified = true;
-                db.SaveChanges();
+                dbContext.Entry(model).Property(x => x.Title).IsModified = true;
+                dbContext.Entry(model).Property(x => x.Description).IsModified = true;
+                dbContext.Entry(model).Property(x => x.Link).IsModified = true;
+                dbContext.Entry(model).Property(x => x.Alias).IsModified = true;
+                dbContext.Entry(model).Property(x => x.SeoDescription).IsModified = true;
+                dbContext.Entry(model).Property(x => x.SeoKeywords).IsModified = true;
+                dbContext.Entry(model).Property(x => x.SeoTitle).IsModified = true;
+                dbContext.Entry(model).Property(x => x.Position).IsModified = true;
+                dbContext.Entry(model).Property(x => x.ModifiedDate).IsModified = true;
+                dbContext.Entry(model).Property(x => x.Modifiedby).IsModified = true;
+                dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(model);
@@ -73,12 +79,12 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            var item = db.Categories.Find(id);
+            var item = dbContext.Categories.Find(id);
             if (item != null)
             {
                 //var DeleteItem = db.Categories.Attach(item);
-                db.Categories.Remove(item);
-                db.SaveChanges();
+                dbContext.Categories.Remove(item);
+                dbContext.SaveChanges();
                 return Json(new { success = true });
             }
             return Json(new { success = false });

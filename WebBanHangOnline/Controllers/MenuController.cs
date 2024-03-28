@@ -4,12 +4,19 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
+using WebBanHangOnline.Services;
 
 namespace WebBanHangOnline.Controllers
 {
     public class MenuController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+
+        private ApplicationDbContext dbContext;
+
+        public MenuController()
+        {
+            dbContext = DbContextSingleton.Instance.GetDbContext();
+        }
         // GET: Menu
         public ActionResult Index()
         {
@@ -18,13 +25,13 @@ namespace WebBanHangOnline.Controllers
 
         public ActionResult MenuTop()
         {
-            var items = db.Categories.OrderBy(x=>x.Position).ToList();
+            var items = dbContext.Categories.OrderBy(x=>x.Position).ToList();
             return PartialView("_MenuTop", items);
         }
 
         public ActionResult MenuProductCategory()
         {
-            var items = db.ProductCategories.ToList();
+            var items = dbContext.ProductCategories.ToList();
             return PartialView("_MenuProductCategory", items);
         }
         public ActionResult MenuLeft(int? id)
@@ -33,13 +40,13 @@ namespace WebBanHangOnline.Controllers
             {
                 ViewBag.CateId = id;
             }
-            var items = db.ProductCategories.ToList();
+            var items = dbContext.ProductCategories.ToList();
             return PartialView("_MenuLeft", items);
         }
 
         public ActionResult MenuArrivals()
         {
-            var items = db.ProductCategories.ToList();
+            var items = dbContext.ProductCategories.ToList();
             return PartialView("_MenuArrivals", items);
         }
 

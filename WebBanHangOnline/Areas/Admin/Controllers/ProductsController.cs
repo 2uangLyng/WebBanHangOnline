@@ -6,13 +6,19 @@ using System.Web;
 using System.Web.Mvc;
 using WebBanHangOnline.Models;
 using WebBanHangOnline.Models.EF;
+using WebBanHangOnline.Services;
 
 namespace WebBanHangOnline.Areas.Admin.Controllers
 {
     [Authorize(Roles = "Admin,Employee")]
     public class ProductsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext db;
+
+        public ProductsController()
+        {
+            db = DbContextSingleton.Instance.GetDbContext();
+        }   
         // GET: Admin/Products
         public ActionResult Index(int? page)
         {
@@ -112,22 +118,24 @@ namespace WebBanHangOnline.Areas.Admin.Controllers
             var item = db.Products.Find(id);
             if (item != null)
             {
-                var checkImg = item.ProductImage.Where(x => x.ProductId == item.Id);
+                var checkImg = item.ProductImage.Where(x => x.ProductId == item.Id).ToList();
                 if (checkImg != null)
                 {
-                    foreach(var img in checkImg)
+                    foreach (var img in checkImg)
                     {
                         db.ProductImages.Remove(img);
-                        db.SaveChanges();
                     }
+                    db.SaveChanges(); // Lưu thay đổi sau khi đã loại bỏ tất cả các hình ảnh
                 }
+
                 db.Products.Remove(item);
-                db.SaveChanges();
+                db.SaveChanges(); // Lưu thay đổi của việc xóa sản phẩm
                 return Json(new { success = true });
             }
 
             return Json(new { success = false });
         }
+
 
         [HttpPost]
         public ActionResult IsActive(int id)

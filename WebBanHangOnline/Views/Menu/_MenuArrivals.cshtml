@@ -16,12 +16,9 @@
                     <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center active is-checked" data-filter="*">Tất cả</li>
                     @foreach (var item in Model)
                     {
-                        <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".@item.Alias">@item.Title</li>
+                        <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" 
+                            data-filter=".@item.Alias">@item.Title</li>
                     }
-
-                    @*<li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".women">women's</li>
-                    <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".accessories">accessories</li>
-                    <li class="grid_sorting_button button d-flex flex-column justify-content-center align-items-center" data-filter=".men">men's</li>*@
                 </ul>
             </div>
         </div>
