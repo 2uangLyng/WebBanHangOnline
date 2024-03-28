@@ -11,8 +11,6 @@ namespace WebBanHangOnline
 {
     public partial class Startup
     {
-        public global::System.Object ConfigurationManager { get; private set; }
-
         // For more information on configuring authentication, please visit https://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
@@ -60,11 +58,11 @@ namespace WebBanHangOnline
             //   appId: "",
             //   appSecret: "");
 
-            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            {
-                ClientId = ConfigurationManager.AppSettings["GgAppId"],
-                ClientSecret = ConfigurationManager.AppSettings["GgAppSecret"]
-            }) ;
+            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            //{
+            //    ClientId = "",
+            //    ClientSecret = ""
+            //});
         }
     }
 }
